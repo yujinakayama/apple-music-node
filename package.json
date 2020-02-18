@@ -9,6 +9,7 @@
     "prepublishOnly": "npm run build",
     "test": "jest"
   },
+  "homepage": "https://github.com/yujinakayama/apple-music",
   "keywords": [
     "apple",
     "music",
