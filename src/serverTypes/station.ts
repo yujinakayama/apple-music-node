@@ -1,6 +1,7 @@
 import { Resource } from './resource';
 import { Artwork } from './artwork';
 import { EditorialNotes } from './editorialNotes';
+import { PlayParameters } from './playParameters';
 
 // https://developer.apple.com/documentation/applemusicapi/station
 export interface Station extends Resource {
@@ -17,6 +18,7 @@ namespace Station {
     episodeNumber?: number;
     isLive: boolean;
     name: string;
+    playParams?: PlayParameters; // Undocumented but supported
     url: string;
   }
 }
