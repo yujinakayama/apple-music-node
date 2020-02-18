@@ -14,5 +14,8 @@
     "node"
   ],
   "author": "Yuji Nakayama",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
 }
