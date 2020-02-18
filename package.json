@@ -20,5 +20,8 @@
   "devDependencies": {
     "prettier": "^1.19.1",
     "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
   }
 }
