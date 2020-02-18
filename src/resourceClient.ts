@@ -6,6 +6,10 @@ import { AppleMusicError } from './appleMusicError';
 import { ResponseRoot } from './serverTypes/responseRoot';
 import { Error } from './serverTypes/error';
 
+interface Parameters {
+  l?: string;
+}
+
 export class ResourceClient<T extends ResponseRoot> {
   private axiosInstance: AxiosInstance;
 
@@ -20,29 +24,36 @@ export class ResourceClient<T extends ResponseRoot> {
     });
   }
 
-  async get(id: string, options?: { storefront?: string }): Promise<T> {
+  async get(id: string, options?: { storefront?: string; languageTag?: string }): Promise<T> {
     const storefront = options?.storefront || this.configuration.defaultStorefront;
 
     if (!storefront) {
       throw new Error(`Specify storefront with function parameter or default one with Client's constructor`);
     }
 
-    const httpResponse = await this.request('GET', `/catalog/${storefront}/${this.urlName}/${id}`);
+    const url = `/catalog/${storefront}/${this.urlName}/${id}`;
+
+    let params: Parameters = {
+      l: options?.languageTag || this.configuration.defaultLanguageTag
+    };
+
+    const httpResponse = await this.request('GET', url, params);
     const apiResponse = httpResponse.data as ResponseRoot;
 
     // https://developer.apple.com/documentation/applemusicapi/handling_requests_and_responses#3001632
     if (!apiResponse.errors) {
       return apiResponse as T;
     } else {
-      const error = apiResponse.errors[0] as Error
+      const error = apiResponse.errors[0] as Error;
       throw new AppleMusicError(error.title, apiResponse, httpResponse.status);
     }
   }
 
-  private request(method: Method, apiPath: string): AxiosPromise {
+  private request(method: Method, apiPath: string, params?: any): AxiosPromise {
     return this.axiosInstance.request({
       method: method,
-      url: apiPath
+      url: apiPath,
+      params: params
     });
   }
 }

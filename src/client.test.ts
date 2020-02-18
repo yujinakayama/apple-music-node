@@ -33,4 +33,14 @@ describe('Client', () => {
 
     expect(catched).toBeTruthy();
   });
+
+  test('supports language tags', async () => {
+    const id = 'pl.5ee8333dbe944d9f9151e97d92d1ead9';
+
+    const defaultLanguageResponse = await client.playlists.get(id, { storefront: 'jp' });
+    expect(defaultLanguageResponse.data[0].attributes!.name).toEqual('Ａリスト：ポップ');
+
+    const englishResponse = await client.playlists.get(id, { storefront: 'jp', languageTag: 'en-US' });
+    expect(englishResponse.data[0].attributes!.name).toEqual('A-List Pop');
+  });
 });
