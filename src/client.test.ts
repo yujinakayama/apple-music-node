@@ -23,12 +23,9 @@ describe('Client', () => {
     let catched = false;
 
     try {
-      const response = await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'foo' });
+      const response = await client.playlists.get('nosuchplaylist', { storefront: 'jp' });
     } catch (error) {
-      catched = true;
-      expect(error).toBeInstanceOf(AppleMusicError);
-      expect(error.httpStatusCode).toBe(400);
-      expect(error.response.errors[0].title).toEqual('Unknown Storefront');
+      console.log(error.response.errors[0])
     }
 
     expect(catched).toBeTruthy();
