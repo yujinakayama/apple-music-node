@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write 'src/**/*.ts'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "apple",
@@ -18,7 +18,11 @@
   "author": "Yuji Nakayama",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"
   },
   "dependencies": {
