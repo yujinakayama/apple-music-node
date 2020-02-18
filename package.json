@@ -18,7 +18,10 @@
   "author": "Yuji Nakayama",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"
   },
   "dependencies": {
