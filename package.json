@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
     "test": "jest"
   },
   "keywords": [
