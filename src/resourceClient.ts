@@ -62,7 +62,7 @@ export class ResourceClient<T extends ResponseRoot> {
 const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 function parseJSONWithDateHandling(json: string) {
-  return JSON.parse(json, (key: any, value: any) => {
+  return JSON.parse(json, (_key: any, value: any) => {
     if (typeof value !== 'string') {
       return value;
     }
