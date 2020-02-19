@@ -19,6 +19,19 @@ describe('Client', () => {
     expect(playlist.attributes!.lastModifiedDate.getFullYear()).toBeGreaterThanOrEqual(2020);
   });
 
+  test('handles Album.Attributes.releaseDate as CalendarDate object', async () => {
+    // https://music.apple.com/jp/album/a-brief-inquiry-into-online-relationships/1435546528?l=en
+    const response = await client.albums.get('1435546528', { storefront: 'jp' });
+    const album = response.data[0];
+    const releaseDate = album.attributes!.releaseDate;
+
+    expect(releaseDate.year).toEqual(2018);
+    expect(releaseDate.month).toEqual(11);
+    expect(releaseDate.day).toEqual(30);
+
+    expect(releaseDate.toUTCDate().getFullYear()).toEqual(2018);
+  });
+
   test('handles errors', async () => {
     let catched = false;
 

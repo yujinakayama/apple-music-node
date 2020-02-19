@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosPromise, Method } from 'axios';
 
 import { ClientConfiguration } from './clientConfiguration';
 import { AppleMusicError } from './appleMusicError';
+import { CalendarDate } from './calendarDate';
 
 import { ResponseRoot } from './serverTypes/responseRoot';
 import { Error } from './serverTypes/error';
@@ -62,10 +63,20 @@ const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 function parseJSONWithDateHandling(json: string) {
   return JSON.parse(json, (key: any, value: any) => {
-    if (typeof value === 'string' && value.match(datePattern)) {
-      return new Date(value);
-    } else {
+    if (typeof value !== 'string') {
       return value;
     }
+
+    const calendarDate = CalendarDate.parse(value);
+
+    if (calendarDate) {
+      return calendarDate;
+    }
+
+    if (value.match(datePattern)) {
+      return new Date(value);
+    }
+
+    return value;
   });
 }

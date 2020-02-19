@@ -1,3 +1,5 @@
+import { CalendarDate } from '../calendarDate';
+
 import { Resource } from './resource';
 import { Artwork } from './artwork';
 import { ContentRating } from './contentRating';
@@ -29,7 +31,7 @@ namespace MusicVideo {
     name: string;
     playParams?: PlayParameters;
     previews: Preview[];
-    releaseDate: Date;
+    releaseDate: CalendarDate;
     trackNumber?: number;
     url: string;
     videoSubType?: string;

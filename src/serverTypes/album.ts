@@ -1,3 +1,5 @@
+import { CalendarDate } from '../calendarDate';
+
 import { Resource } from './resource';
 import { Artwork } from './artwork';
 import { ContentRating } from './contentRating';
@@ -29,7 +31,7 @@ namespace Album {
     name: string;
     playParams?: PlayParameters;
     recordLabel: string;
-    releaseDate: Date;
+    releaseDate: CalendarDate;
     trackCount: number;
     url: string;
     isMasteredForItunes: boolean;
