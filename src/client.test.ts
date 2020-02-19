@@ -12,14 +12,14 @@ describe('Client', () => {
     client = new Client({ developerToken });
   });
 
-  test('handles Playlist.Attributes.lastModifiedDate as Date object', async () => {
+  it('handles Playlist.Attributes.lastModifiedDate as Date object', async () => {
     // https://music.apple.com/jp/playlist/a-list-pop/pl.5ee8333dbe944d9f9151e97d92d1ead9?l=en
     const response = await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'jp' });
     const playlist = response.data[0];
     expect(playlist.attributes!.lastModifiedDate.getFullYear()).toBeGreaterThanOrEqual(2020);
   });
 
-  test('handles Album.Attributes.releaseDate as CalendarDate object', async () => {
+  it('handles Album.Attributes.releaseDate as CalendarDate object', async () => {
     // https://music.apple.com/jp/album/a-brief-inquiry-into-online-relationships/1435546528?l=en
     const response = await client.albums.get('1435546528', { storefront: 'jp' });
     const album = response.data[0];
@@ -32,7 +32,7 @@ describe('Client', () => {
     expect(releaseDate.toUTCDate().getFullYear()).toEqual(2018);
   });
 
-  test('handles errors', async () => {
+  it('handles errors', async () => {
     let catched = false;
 
     try {
@@ -47,7 +47,7 @@ describe('Client', () => {
     expect(catched).toBeTruthy();
   });
 
-  test('supports language tags', async () => {
+  it('supports language tags', async () => {
     const id = 'pl.5ee8333dbe944d9f9151e97d92d1ead9';
 
     const defaultLanguageResponse = await client.playlists.get(id, { storefront: 'jp' });
