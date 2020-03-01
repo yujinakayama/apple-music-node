@@ -119,13 +119,10 @@ const response = await client.playlists.get(playlistID);
 ```typescript
 const client = new Client({
   developerToken: 'YOUR_DEVELOPER_TOKEN',
-  defaultStorefront: 'us'
 });
 
-// OK
-const response = await client.playlists.get(playlistID);
+const response = await client.playlists.get(playlistID, { storefront: 'us' });
 ```
-
 
 ### Specifying Language Tag
 
