@@ -3,6 +3,9 @@ import * as process from 'process';
 import { AppleMusicError } from './appleMusicError';
 
 const developerToken = process.env['APPLE_MUSIC_DEVELOPER_TOKEN']!;
+if (!developerToken) {
+  throw 'Environemnt variable "APPLE_MUSIC_DEVELOPER_TOKEN" must be set';
+}
 
 // TODO: Mock request with something like Ruby's VCR
 describe('Client', () => {
