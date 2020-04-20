@@ -36,7 +36,7 @@ describe('Client', () => {
     let catched = false;
 
     try {
-      const response = await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'foo' });
+      await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'foo' });
     } catch (error) {
       catched = true;
       expect(error).toBeInstanceOf(AppleMusicError);
