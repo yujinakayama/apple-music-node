@@ -1,6 +1,6 @@
 {
   "name": "@yujinakayama/apple-music",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Apple Music API Client for Node.js",
   "main": "dist/index.js",
   "scripts": {
