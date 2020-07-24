@@ -35,7 +35,7 @@ describe('Client', () => {
     expect(releaseDate.toUTCDate().getFullYear()).toEqual(2018);
   });
 
-  it('handles errors', async () => {
+  it('handles application errors', async () => {
     let catched = false;
 
     try {
@@ -45,6 +45,22 @@ describe('Client', () => {
       expect(error).toBeInstanceOf(AppleMusicError);
       expect(error.httpStatusCode).toBe(400);
       expect(error.response.errors[0].title).toEqual('Unknown Storefront');
+    }
+
+    expect(catched).toBeTruthy();
+  });
+
+  it('handles authorization errors', async () => {
+    client = new Client({ developerToken: 'invalid' });
+
+    let catched = false;
+
+    try {
+      await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'jp' });
+    } catch (error) {
+      catched = true;
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toEqual('Request failed with status code 401');
     }
 
     expect(catched).toBeTruthy();

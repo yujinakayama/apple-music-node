@@ -20,7 +20,16 @@ export class ResourceClient<T extends ResponseRoot> {
       headers: {
         Authorization: `Bearer ${this.configuration.developerToken}`
       },
-      transformResponse: [parseJSONWithDateHandling],
+      // https://github.com/axios/axios/blob/v0.20.0-0/lib/defaults.js#L57-L65
+      transformResponse: [(data) => {
+        /*eslint no-param-reassign:0*/
+        if (typeof data === 'string') {
+          try {
+            data = parseJSONWithDateHandling(data);
+          } catch (e) { /* Ignore */ }
+        }
+        return data;
+      }],
       validateStatus: () => true // Handle errors by ourselves
     });
   }
@@ -39,6 +48,11 @@ export class ResourceClient<T extends ResponseRoot> {
     };
 
     const httpResponse = await this.request('GET', url, params);
+
+    if (!httpResponse.data) {
+      throw new AppleMusicError(`Request failed with status code ${httpResponse.status}`, httpResponse.status);
+    }
+
     const apiResponse = httpResponse.data as ResponseRoot;
 
     // https://developer.apple.com/documentation/applemusicapi/handling_requests_and_responses#3001632
@@ -46,7 +60,7 @@ export class ResourceClient<T extends ResponseRoot> {
       return apiResponse as T;
     } else {
       const error = apiResponse.errors[0] as Error;
-      throw new AppleMusicError(error.title, apiResponse, httpResponse.status);
+      throw new AppleMusicError(error.title, httpResponse.status, apiResponse);
     }
   }
 
