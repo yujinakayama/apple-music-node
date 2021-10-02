@@ -7,6 +7,7 @@ import { MusicVideoResponse } from './serverTypes/musicVideoResponse';
 import { PlaylistResponse } from './serverTypes/playlistResponse';
 import { SongResponse } from './serverTypes/songResponse';
 import { StationResponse } from './serverTypes/stationResponse';
+import { SearchResponse } from './serverTypes/searchResponse';
 
 export class Client {
   configuration: ClientConfiguration;
@@ -17,6 +18,7 @@ export class Client {
   playlists: ResourceClient<PlaylistResponse>;
   songs: ResourceClient<SongResponse>;
   stations: ResourceClient<StationResponse>;
+  search: ResourceClient<SearchResponse>;
 
   constructor(configuration: ClientConfiguration) {
     this.configuration = configuration;
@@ -27,5 +29,6 @@ export class Client {
     this.playlists = new ResourceClient<PlaylistResponse>('playlists', this.configuration);
     this.songs = new ResourceClient<SongResponse>('songs', this.configuration);
     this.stations = new ResourceClient<StationResponse>('stations', this.configuration);
+    this.search = new ResourceClient<SearchResponse>('search', this.configuration);
   }
 }

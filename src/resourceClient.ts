@@ -9,19 +9,20 @@ import { Error } from './serverTypes/error';
 
 interface Parameters {
   l?: string;
+  term?: string;
 }
 
 export class ResourceClient<T extends ResponseRoot> {
   private axiosInstance: AxiosInstance;
 
-  constructor(public urlName: string, public configuration: ClientConfiguration) {
+  constructor(public resourceName: string, public configuration: ClientConfiguration) {
     this.axiosInstance = axios.create({
       baseURL: 'https://api.music.apple.com/v1',
       headers: {
         Authorization: `Bearer ${this.configuration.developerToken}`
       },
       // https://github.com/axios/axios/blob/v0.20.0-0/lib/defaults.js#L57-L65
-      transformResponse: [(data) => {
+      transformResponse: [(data: any) => {
         /*eslint no-param-reassign:0*/
         if (typeof data === 'string') {
           try {
@@ -34,18 +35,20 @@ export class ResourceClient<T extends ResponseRoot> {
     });
   }
 
-  async get(id: string, options?: { storefront?: string; languageTag?: string }): Promise<T> {
+  async get(query: string, options?: { storefront?: string; languageTag?: string }): Promise<T> {
     const storefront = options?.storefront || this.configuration.defaultStorefront;
 
     if (!storefront) {
       throw new Error(`Specify storefront with function parameter or default one with Client's constructor`);
     }
 
-    const url = `/catalog/${storefront}/${this.urlName}/${id}`;
+    const url = buildRequestUrl(this.resourceName, storefront, query);
 
-    let params: Parameters = {
+    const params: Parameters = {
       l: options?.languageTag || this.configuration.defaultLanguageTag
     };
+
+    if (this.resourceName === 'search') params.term = query;
 
     const httpResponse = await this.request('GET', url, params);
 
@@ -74,6 +77,17 @@ export class ResourceClient<T extends ResponseRoot> {
 }
 
 const datePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+
+function buildRequestUrl(resourceName: string, storefront: string, query: string): string {
+  switch (resourceName) {
+    case 'search': {
+      return `/catalog/${storefront}/search`;
+    }
+    default: {
+      return `/catalog/${storefront}/${resourceName}/${query}`;
+    }
+  }
+}
 
 function parseJSONWithDateHandling(json: string) {
   return JSON.parse(json, (_key: any, value: any) => {
