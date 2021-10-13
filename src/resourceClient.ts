@@ -21,15 +21,19 @@ export class ResourceClient<T extends ResponseRoot> {
         Authorization: `Bearer ${this.configuration.developerToken}`
       },
       // https://github.com/axios/axios/blob/v0.20.0-0/lib/defaults.js#L57-L65
-      transformResponse: [(data) => {
-        /*eslint no-param-reassign:0*/
-        if (typeof data === 'string') {
-          try {
-            data = parseJSONWithDateHandling(data);
-          } catch (e) { /* Ignore */ }
+      transformResponse: [
+        data => {
+          /*eslint no-param-reassign:0*/
+          if (typeof data === 'string') {
+            try {
+              data = parseJSONWithDateHandling(data);
+            } catch (e) {
+              /* Ignore */
+            }
+          }
+          return data;
         }
-        return data;
-      }],
+      ],
       validateStatus: () => true // Handle errors by ourselves
     });
   }
