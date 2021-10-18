@@ -56,7 +56,9 @@ describe('Client', () => {
     let catched = false;
 
     try {
-      await client.playlists.get('pl.5ee8333dbe944d9f9151e97d92d1ead9', { storefront: 'jp' });
+      // For some reason it doesn't return error response
+      // if the same playlist is requested in other test cases (maybe caching?).
+      await client.playlists.get('pl.7d657a836db14d768accd2e6ffd1b0ad', { storefront: 'jp' });
     } catch (error) {
       catched = true;
       expect(error).toBeInstanceOf(Error);
